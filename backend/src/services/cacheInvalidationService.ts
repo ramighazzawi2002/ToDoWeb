@@ -1,4 +1,4 @@
-import { CronCacheService } from "./cronCacheService";
+import { CronCacheService } from "./cronCacheService.js";
 
 /**
  * Middleware to invalidate cache after task operations

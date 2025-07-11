@@ -1,13 +1,13 @@
 import * as nodeCron from "node-cron";
-import UserModel from "../Models/User";
-import { sendNotificationToUser } from "../utils/Notification";
+import UserModel from "../Models/User.js";
+import { sendNotificationToUser } from "../utils/Notification.js";
 import {
   formatTimeRemaining,
   formatOverdueTime,
   getPriorityLevel,
   generateReminderMessage,
-} from "../utils/timeUtils";
-import { CronCacheService } from "./cronCacheService";
+} from "../utils/timeUtils.js";
+import { CronCacheService } from "./cronCacheService.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();

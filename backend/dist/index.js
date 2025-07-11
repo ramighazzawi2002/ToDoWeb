@@ -1,18 +1,18 @@
 import express from "express";
-import { connectDB, connectRedis } from "./config";
+import { connectDB, connectRedis } from "./config.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import userRoutes from "./Routes/UserRoutes";
-import toDoListRouter from "./Routes/ToDoList";
-import toDoItemRouter from "./Routes/ToDoItem";
+import userRoutes from "./Routes/UserRoutes.js";
+import toDoListRouter from "./Routes/ToDoList.js";
+import toDoItemRouter from "./Routes/ToDoItem.js";
 import swaggerUI from "swagger-ui-express";
 import swaggerDocument from "./swagger-output.json" assert { type: "json" };
 import { Server } from "socket.io";
-import { initializeOptimizedCronJobs } from "./services/optimizedCronService";
+import { initializeOptimizedCronJobs } from "./services/optimizedCronService.js";
 // Import models to ensure they are registered with Mongoose
-import "./Models/User";
-import "./Models/ToDoList";
-import "./Models/ToDoItem";
+import "./Models/User.js";
+import "./Models/ToDoList.js";
+import "./Models/ToDoItem.js";
 import dotenv from "dotenv";
 const app = express();
 dotenv.config();

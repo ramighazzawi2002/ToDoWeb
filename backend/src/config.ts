@@ -1,6 +1,6 @@
 import { Error } from "mongoose";
 import mongoose from "mongoose";
-import { RedisClient } from "./config/redis";
+import { RedisClient } from "./config/redis.js";
 import dotenv from "dotenv";
 
 dotenv.config();

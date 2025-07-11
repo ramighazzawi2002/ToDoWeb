@@ -1,8 +1,8 @@
 // User Controller with middleware validation
 import { Request, Response } from "express";
-import UserModel from "../Models/User";
+import UserModel from "../Models/User.js";
 import bcrypt from "bcrypt";
-import { generateToken, decodeToken } from "../utils/jwt";
+import { generateToken, decodeToken } from "../utils/jwt.js";
 export const SignUp = async (req: Request, res: Response) => {
   // #swagger.tags = ['Users']
   /*  #swagger.parameters['body'] = {

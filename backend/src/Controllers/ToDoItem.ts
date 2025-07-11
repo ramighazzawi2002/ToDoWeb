@@ -1,8 +1,8 @@
-import ToDoItemModel from "../Models/ToDoItem";
-import ToDoListModel from "../Models/ToDoList";
+import ToDoItemModel from "../Models/ToDoItem.js";
+import ToDoListModel from "../Models/ToDoList.js";
 import { Request, Response } from "express";
-import { sendNotificationToUser } from "../utils/Notification";
-import { CacheInvalidationService } from "../services/cacheInvalidationService";
+import { sendNotificationToUser } from "../utils/Notification.js";
+import { CacheInvalidationService } from "../services/cacheInvalidationService.js";
 
 const addToDoItem = async (req: Request, res: Response) => {
   // #swagger.tags = ['ToDoItem']

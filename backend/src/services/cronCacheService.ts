@@ -1,6 +1,6 @@
-import { redis } from "../config/redis";
-import ToDoItemModel from "../Models/ToDoItem";
-import ToDoListModel from "../Models/ToDoList";
+import { redis } from "../config/redis.js";
+import ToDoItemModel from "../Models/ToDoItem.js";
+import ToDoListModel from "../Models/ToDoList.js";
 
 export class CronCacheService {
   private static readonly CACHE_KEYS = {

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { decodeToken } from "../utils/jwt";
+import { decodeToken } from "../utils/jwt.js";
 
 declare global {
   namespace Express {

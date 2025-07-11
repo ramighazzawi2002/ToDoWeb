@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import ToDoListModel from "../Models/ToDoList";
-import ToDoItemModel from "../Models/ToDoItem";
+import ToDoListModel from "../Models/ToDoList.js";
+import ToDoItemModel from "../Models/ToDoItem.js";
 export const createToDoList = async (req: Request, res: Response) => {
   // #swagger.tags = ['ToDoList']
   /*  #swagger.parameters['body'] = {
