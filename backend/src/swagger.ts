@@ -7,7 +7,10 @@ const doc = {
       "A comprehensive API for managing to-do lists and user authentication",
     version: "1.0.0",
   },
-  host: "localhost:3000",
+  host:
+    process.env.NODE_ENV === "production"
+      ? "todoweb-i27o.onrender.com"
+      : "localhost:3000",
   definition: {
     /**
      *   firstName: vine.string().trim().minLength(2).maxLength(50),
