@@ -64,7 +64,7 @@ const SignUp = () => {
     try {
       setError(null);
       await axios.post(
-        "http://todoweb-i27o.onrender.com/api/users/signup",
+        "https://todoweb-i27o.onrender.com/api/users/signup",
         values
       );
       // Redirect to login after successful signup

@@ -41,7 +41,7 @@ export function useTodos() {
       setIsLoading(true);
       setError(null);
       const response = await axios.get(
-        "http://todoweb-i27o.onrender.com/api/todo/",
+        "https://todoweb-i27o.onrender.com/api/todo/",
         {
           withCredentials: true,
         }
@@ -69,7 +69,7 @@ export function useTodos() {
         if (error.status === 401) {
           // Handle unauthorized access, e.g., redirect to login
           axios.post(
-            "http://localhost:3000/api/users/refresh-token",
+            "https://todoweb-i27o.onrender.com/api/users/refresh-token",
             {},
             { withCredentials: true }
           );
@@ -89,7 +89,7 @@ export function useTodos() {
   const addTodoList = useCallback(async (input: CreateTodoListInput) => {
     try {
       const response = await axios.post(
-        "http://todoweb-i27o.onrender.com/api/todo/",
+        "https://todoweb-i27o.onrender.com/api/todo/",
         {
           title: input.title,
           description: input.description,
@@ -129,7 +129,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `http://todoweb-i27o.onrender.com/api/todo/${id}`,
+          `https://todoweb-i27o.onrender.com/api/todo/${id}`,
           {
             title: updates.title,
             description: updates.description,
@@ -153,7 +153,7 @@ export function useTodos() {
       setTodoLists((prev) => prev.filter((list) => list.id !== id));
 
       try {
-        await axios.delete(`http://todoweb-i27o.onrender.com/api/todo/${id}`, {
+        await axios.delete(`https://todoweb-i27o.onrender.com/api/todo/${id}`, {
           withCredentials: true,
         });
       } catch (error) {
@@ -170,7 +170,7 @@ export function useTodos() {
     async (listId: string, input: CreateTodoInput) => {
       try {
         const response = await axios.post(
-          `http://todoweb-i27o.onrender.com/api/todo/items/${listId}`,
+          `https://todoweb-i27o.onrender.com/api/todo/items/${listId}`,
           {
             title: input.title,
             description: input.description,
@@ -254,7 +254,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `http://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
+          `https://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
           {
             title: updates.title,
             description: updates.description,
@@ -293,7 +293,7 @@ export function useTodos() {
 
       try {
         await axios.delete(
-          `http://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
+          `https://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
           {
             withCredentials: true,
           }

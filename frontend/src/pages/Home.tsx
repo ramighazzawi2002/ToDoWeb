@@ -22,7 +22,7 @@ const Home = () => {
     console.log("Setting up socket connection...");
 
     // Create socket connection
-    socketRef.current = io("http://localhost:3000", {
+    socketRef.current = io("https://todoweb-i27o.onrender.com", {
       transports: ["websocket", "polling"],
       timeout: 20000,
     });
@@ -196,7 +196,7 @@ const Home = () => {
                 onClick={async () => {
                   try {
                     await axios.post(
-                      "http://todoweb-i27o.onrender.com/api/users/logout",
+                      "https://todoweb-i27o.onrender.com/api/users/logout",
                       {},
                       { withCredentials: true }
                     );
