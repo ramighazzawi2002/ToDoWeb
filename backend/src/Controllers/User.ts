@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import UserModel from "../Models/User.js";
 import bcrypt from "bcrypt";
 import { generateToken, decodeToken } from "../utils/jwt.js";
+import dotenv from "dotenv";
+dotenv.config();
 export const SignUp = async (req: Request, res: Response) => {
   // #swagger.tags = ['Users']
   /*  #swagger.parameters['body'] = {
@@ -75,16 +77,24 @@ export const SignIn = async (req: Request, res: Response) => {
     }
     const token = generateToken({ _id: user._id }, "1h");
     const refreshToken = generateToken({ _id: user._id }, "1y");
-    res.cookie("token", token, {
+
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? ("none" as const)
+          : ("strict" as const),
+      domain:
+        process.env.NODE_ENV === "production" ? ".onrender.com" : undefined,
+    };
+
+    res.cookie("token", token, {
+      ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      ...cookieOptions,
       maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     });
 
@@ -141,16 +151,24 @@ export const RefreshToken = async (req: Request, res: Response) => {
     // Generate a new token
     const newToken = generateToken({ _id: decoded.id }, "1h");
     const newRefreshToken = generateToken({ _id: decoded.id }, "1y");
-    res.cookie("token", newToken, {
+
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? ("none" as const)
+          : ("strict" as const),
+      domain:
+        process.env.NODE_ENV === "production" ? ".onrender.com" : undefined,
+    };
+
+    res.cookie("token", newToken, {
+      ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
     res.cookie("refreshToken", newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      ...cookieOptions,
       maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     });
     res.status(200).json({
