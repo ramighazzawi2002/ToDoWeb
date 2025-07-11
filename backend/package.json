@@ -7,8 +7,7 @@
     "dev": "tsx src/index.ts",
     "build": "tsc",
     "swagger": "tsx src/swagger.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd ../to-do-Front && npm install && npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
