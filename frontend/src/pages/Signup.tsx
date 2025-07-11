@@ -63,7 +63,10 @@ const SignUp = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setError(null);
-      await axios.post("http://localhost:3000/api/users/signup", values);
+      await axios.post(
+        "http://todoweb-i27o.onrender.com/api/users/signup",
+        values
+      );
       // Redirect to login after successful signup
       navigate("/login");
     } catch (error: any) {

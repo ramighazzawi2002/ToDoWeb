@@ -196,7 +196,7 @@ const Home = () => {
                 onClick={async () => {
                   try {
                     await axios.post(
-                      "http://localhost:3000/api/users/logout",
+                      "http://todoweb-i27o.onrender.com/api/users/logout",
                       {},
                       { withCredentials: true }
                     );
