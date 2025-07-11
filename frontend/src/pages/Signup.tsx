@@ -14,6 +14,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "@/contexts/AuthContext";
 const formSchema = z
   .object({
     firstName: z.string().min(2, {
@@ -63,10 +64,7 @@ const SignUp = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setError(null);
-      await axios.post(
-        "https://todoweb-i27o.onrender.com/api/users/signup",
-        values
-      );
+      await axios.post(`${API_URL}/api/users/signup`, values);
       // Redirect to login after successful signup
       navigate("/login");
     } catch (error: any) {

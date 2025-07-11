@@ -5,7 +5,7 @@ import { TodoListComponent } from "@/components/TodoListComponent";
 import { AddTodoList } from "@/components/AddTodoList";
 import { useTodos } from "@/hooks/useTodos";
 import { useToastNotifications } from "@/hooks/useToastNotifications";
-import { useAuth } from "@/contexts/AuthContext";
+import { API_URL, useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
 import io, { Socket } from "socket.io-client"; // Import the socket.io client library
 import { useEffect, useState, useRef } from "react";
@@ -196,7 +196,7 @@ const Home = () => {
                 onClick={async () => {
                   try {
                     await axios.post(
-                      "https://todoweb-i27o.onrender.com/api/users/logout",
+                      `${API_URL}/api/users/logout`,
                       {},
                       { withCredentials: true }
                     );

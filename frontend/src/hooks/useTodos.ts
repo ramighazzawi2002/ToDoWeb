@@ -6,7 +6,7 @@ import type {
   CreateTodoInput,
   CreateTodoListInput,
 } from "@/types/todo";
-
+import { API_URL } from "@/contexts/AuthContext";
 // Generate a simple ID for demo purposes
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -40,12 +40,9 @@ export function useTodos() {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await axios.get(
-        "https://todoweb-i27o.onrender.com/api/todo/",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${API_URL}/api/todo/`, {
+        withCredentials: true,
+      });
 
       console.log("API Response:", response.data); // Debug log
 
@@ -69,7 +66,7 @@ export function useTodos() {
         if (error.status === 401) {
           // Handle unauthorized access, e.g., redirect to login
           axios.post(
-            "https://todoweb-i27o.onrender.com/api/users/refresh-token",
+            `${API_URL}/api/users/refresh-token`,
             {},
             { withCredentials: true }
           );
@@ -89,7 +86,7 @@ export function useTodos() {
   const addTodoList = useCallback(async (input: CreateTodoListInput) => {
     try {
       const response = await axios.post(
-        "https://todoweb-i27o.onrender.com/api/todo/",
+        `${API_URL}/api/todo/`,
         {
           title: input.title,
           description: input.description,
@@ -129,7 +126,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `https://todoweb-i27o.onrender.com/api/todo/${id}`,
+          `${API_URL}/api/todo/${id}`,
           {
             title: updates.title,
             description: updates.description,
@@ -153,7 +150,7 @@ export function useTodos() {
       setTodoLists((prev) => prev.filter((list) => list.id !== id));
 
       try {
-        await axios.delete(`https://todoweb-i27o.onrender.com/api/todo/${id}`, {
+        await axios.delete(`${API_URL}/api/todo/${id}`, {
           withCredentials: true,
         });
       } catch (error) {
@@ -170,7 +167,7 @@ export function useTodos() {
     async (listId: string, input: CreateTodoInput) => {
       try {
         const response = await axios.post(
-          `https://todoweb-i27o.onrender.com/api/todo/items/${listId}`,
+          `${API_URL}/api/todo/items/${listId}`,
           {
             title: input.title,
             description: input.description,
@@ -254,7 +251,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `https://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
+          `${API_URL}/api/todo/items/${todoId}`,
           {
             title: updates.title,
             description: updates.description,
@@ -292,12 +289,9 @@ export function useTodos() {
       );
 
       try {
-        await axios.delete(
-          `https://todoweb-i27o.onrender.com/api/todo/items/${todoId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        await axios.delete(`${API_URL}/api/todo/items/${todoId}`, {
+          withCredentials: true,
+        });
       } catch (error) {
         console.error("Failed to delete todo:", error);
         // Revert optimistic update on failure

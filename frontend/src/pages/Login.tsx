@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { API_URL, useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
 import { useState } from "react";
 const formSchema = z.object({
@@ -51,13 +51,9 @@ const Login = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setError(null);
-      const response = await axios.post(
-        "https://todoweb-i27o.onrender.com/api/users/signin",
-        values,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${API_URL}/api/users/signin`, values, {
+        withCredentials: true,
+      });
 
       // Use auth context login
       login(response.data.data);

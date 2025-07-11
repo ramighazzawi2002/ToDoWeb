@@ -1,6 +1,8 @@
 import UserModel from "../Models/User.js";
 import bcrypt from "bcrypt";
 import { generateToken, decodeToken } from "../utils/jwt.js";
+import dotenv from "dotenv";
+dotenv.config();
 export const SignUp = async (req, res) => {
     // #swagger.tags = ['Users']
     /*  #swagger.parameters['body'] = {
@@ -49,7 +51,10 @@ export const SignIn = async (req, res) => {
       } */
     try {
         const { email, password } = req.body;
+        console.log("email:", email); // Debug log
+        console.log("password:", password); // Debug log
         const user = await UserModel.findOne({ email, isDeleted: false }).select("+password");
+        console.log("User found:", user); // Debug log
         if (!user) {
             return res.status(400).json({
                 message: "User Not Found",
@@ -69,18 +74,25 @@ export const SignIn = async (req, res) => {
         }
         const token = generateToken({ _id: user._id }, "1h");
         const refreshToken = generateToken({ _id: user._id }, "1y");
-        res.cookie("token", token, {
+        console.log("Generated token:", token); // Debug log
+        console.log("Generated refresh token:", refreshToken); // Debug log
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: process.env.NODE_ENV === "production"
+                ? "none"
+                : "strict",
+        };
+        console.log("Cookie options:", cookieOptions); // Debug log
+        res.cookie("token", token, {
+            ...cookieOptions,
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
         });
         res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            ...cookieOptions,
             maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
         });
+        console.log("Cookies set successfully"); // Debug log
         res.status(200).json({
             data: {
                 _id: user._id,
@@ -133,16 +145,19 @@ export const RefreshToken = async (req, res) => {
         // Generate a new token
         const newToken = generateToken({ _id: decoded.id }, "1h");
         const newRefreshToken = generateToken({ _id: decoded.id }, "1y");
-        res.cookie("token", newToken, {
+        const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: process.env.NODE_ENV === "production"
+                ? "none"
+                : "strict",
+        };
+        res.cookie("token", newToken, {
+            ...cookieOptions,
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
         });
         res.cookie("refreshToken", newRefreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            ...cookieOptions,
             maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
         });
         res.status(200).json({

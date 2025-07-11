@@ -55,9 +55,12 @@ export const SignIn = async (req: Request, res: Response) => {
     } */
   try {
     const { email, password } = req.body;
+    console.log("email:", email); // Debug log
+    console.log("password:", password); // Debug log
     const user = await UserModel.findOne({ email, isDeleted: false }).select(
       "+password"
     );
+    console.log("User found:", user); // Debug log
     if (!user) {
       return res.status(400).json({
         message: "User Not Found",
@@ -77,7 +80,8 @@ export const SignIn = async (req: Request, res: Response) => {
     }
     const token = generateToken({ _id: user._id }, "1h");
     const refreshToken = generateToken({ _id: user._id }, "1y");
-
+    console.log("Generated token:", token); // Debug log
+    console.log("Generated refresh token:", refreshToken); // Debug log
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -85,9 +89,8 @@ export const SignIn = async (req: Request, res: Response) => {
         process.env.NODE_ENV === "production"
           ? ("none" as const)
           : ("strict" as const),
-      domain:
-        process.env.NODE_ENV === "production" ? ".onrender.com" : undefined,
     };
+    console.log("Cookie options:", cookieOptions); // Debug log
 
     res.cookie("token", token, {
       ...cookieOptions,
@@ -97,7 +100,7 @@ export const SignIn = async (req: Request, res: Response) => {
       ...cookieOptions,
       maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     });
-
+    console.log("Cookies set successfully"); // Debug log
     res.status(200).json({
       data: {
         _id: user._id,
@@ -159,8 +162,6 @@ export const RefreshToken = async (req: Request, res: Response) => {
         process.env.NODE_ENV === "production"
           ? ("none" as const)
           : ("strict" as const),
-      domain:
-        process.env.NODE_ENV === "production" ? ".onrender.com" : undefined,
     };
 
     res.cookie("token", newToken, {

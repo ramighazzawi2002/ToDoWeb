@@ -1,11 +1,16 @@
 import swaggerAutogen from "swagger-autogen";
+import dotenv from "dotenv";
+dotenv.config();
+console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
 const doc = {
     info: {
         title: "To-Do Backend API",
         description: "A comprehensive API for managing to-do lists and user authentication",
         version: "1.0.0",
     },
-    host: "localhost:3000",
+    host: process.env.NODE_ENV === "production"
+        ? "todoweb-i27o.onrender.com"
+        : "localhost:3000",
     definition: {
         /**
          *   firstName: vine.string().trim().minLength(2).maxLength(50),

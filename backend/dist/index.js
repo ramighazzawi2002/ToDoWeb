@@ -6,7 +6,7 @@ import userRoutes from "./Routes/UserRoutes.js";
 import toDoListRouter from "./Routes/ToDoList.js";
 import toDoItemRouter from "./Routes/ToDoItem.js";
 import swaggerUI from "swagger-ui-express";
-import swaggerDocument from "./swagger-output.json" assert { type: "json" };
+import swaggerDocument from "./swagger-output.json" with { type: "json" };
 import { Server } from "socket.io";
 import { initializeOptimizedCronJobs } from "./services/optimizedCronService.js";
 // Import models to ensure they are registered with Mongoose
