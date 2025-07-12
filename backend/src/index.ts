@@ -14,6 +14,8 @@ import "./Models/User.js";
 import "./Models/ToDoList.js";
 import "./Models/ToDoItem.js";
 import dotenv from "dotenv";
+import * as nodeCron from "node-cron";
+import axios from "axios";
 const app = express();
 dotenv.config();
 const port = process.env.PORT;
@@ -34,6 +36,17 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/todo", toDoListRouter);
 app.use("/api/todo/items", toDoItemRouter);
+app.get("/ping", (req, res) => {
+  console.log("Ping received");
+  // Respond with a simple message
+  console.log("Pong sent");
+  res.status(200).json({ message: "pong" });
+});
+
+nodeCron.schedule("*/10 * * * *", async () => {
+  console.log("🔄 Running ping cron job to keep server alive");
+  await axios.get("https://todoweb-i27o.onrender.com/ping");
+});
 
 // Swagger Documentation
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
