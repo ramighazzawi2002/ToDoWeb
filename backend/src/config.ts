@@ -16,7 +16,7 @@ export function connectDB() {
   }
   const dbConnection = mongoose.connection;
   dbConnection.once("open", (_: any) => {
-    console.log(`Database2 connected: ${url}`);
+    console.log(`Database connected: ${url}`);
   });
 
   dbConnection.on("error", (err: Error) => {

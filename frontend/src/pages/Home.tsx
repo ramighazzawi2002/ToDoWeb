@@ -140,6 +140,8 @@ const Home = () => {
     0
   );
 
+  // Responsive navbar state
+  const [navOpen, setNavOpen] = useState(false);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -156,7 +158,41 @@ const Home = () => {
                 </p>
               ) : null}
             </div>
-            <div className="flex items-center space-x-4">
+            {/* Hamburger for mobile */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setNavOpen((v) => !v)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                aria-label="Toggle navigation"
+              >
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  {navOpen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  )}
+                </svg>
+              </button>
+            </div>
+            {/* Nav actions (desktop) */}
+            <div className="hidden md:flex items-center space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
@@ -168,7 +204,6 @@ const Home = () => {
                   className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
                 />
               </Button>
-
               {/* Socket Status Indicator */}
               <div className="flex items-center space-x-2">
                 <div
@@ -182,14 +217,12 @@ const Home = () => {
                     : "Socket: Disconnected"}
                 </span>
               </div>
-
               <div className="flex items-center space-x-2 text-gray-600">
                 <User className="h-4 w-4" />
                 <span className="text-sm">
                   Welcome back{user?.name ? `, ${user.name}` : ""}!
                 </span>
               </div>
-              {/* <Link to="/login"> */}
               <Button
                 variant="outline"
                 size="sm"
@@ -200,7 +233,7 @@ const Home = () => {
                       {},
                       { withCredentials: true }
                     );
-                    authLogout(); // Use auth context logout
+                    authLogout();
                     showInfo(
                       "👋 See you later!",
                       "You've been logged out successfully"
@@ -208,7 +241,6 @@ const Home = () => {
                     navigate("/login");
                   } catch (error) {
                     console.error("Logout failed:", error);
-                    // Even if API call fails, still logout locally
                     authLogout();
                     showError(
                       "❌ Logout Failed",
@@ -221,9 +253,78 @@ const Home = () => {
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>
-              {/* </Link> */}
             </div>
           </div>
+          {/* Mobile nav actions */}
+          {navOpen && (
+            <div className="md:hidden flex flex-col space-y-3 pb-4 animate-fade-in">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  fetchTodoLists();
+                  setNavOpen(false);
+                }}
+                disabled={isLoading}
+                className="text-gray-600 hover:text-gray-900 w-full justify-start"
+              >
+                <RefreshCw
+                  className={`h-4 w-4 ${isLoading ? "animate-spin" : ""} mr-2`}
+                />
+                Refresh
+              </Button>
+              <div className="flex items-center space-x-2">
+                <div
+                  className={`h-2 w-2 rounded-full ${
+                    socketConnected ? "bg-green-500" : "bg-red-500"
+                  }`}
+                ></div>
+                <span className="text-xs text-gray-500">
+                  {socketConnected
+                    ? `Socket: ${socketId.slice(0, 8)}...`
+                    : "Socket: Disconnected"}
+                </span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-600">
+                <User className="h-4 w-4" />
+                <span className="text-sm">
+                  Welcome back{user?.name ? `, ${user.name}` : ""}!
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  try {
+                    await axios.post(
+                      `${API_URL}/api/users/logout`,
+                      {},
+                      { withCredentials: true }
+                    );
+                    authLogout();
+                    showInfo(
+                      "👋 See you later!",
+                      "You've been logged out successfully"
+                    );
+                    navigate("/login");
+                  } catch (error) {
+                    console.error("Logout failed:", error);
+                    authLogout();
+                    showError(
+                      "❌ Logout Failed",
+                      "There was an error logging you out, but you've been logged out locally"
+                    );
+                    navigate("/login");
+                  }
+                  setNavOpen(false);
+                }}
+                className="w-full justify-start"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
+          )}
         </div>
       </header>
 
