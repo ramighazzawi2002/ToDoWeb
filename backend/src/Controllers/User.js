@@ -118,6 +118,7 @@ export const RefreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
+      console.error("No refresh token provided");
       return res.status(401).json({
         message: "No token provided",
       });
@@ -125,6 +126,7 @@ export const RefreshToken = async (req, res) => {
     // Verify the current token first
     const decoded = decodeToken(refreshToken);
     if (!decoded) {
+      console.error("Invalid or expired refresh token");
       return res.status(401).json({
         message: "Invalid or expired token",
       });
@@ -144,6 +146,7 @@ export const RefreshToken = async (req, res) => {
       sameSite: "strict",
       maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
     });
+    console.log("Token refreshed successfully");
     res.status(200).json({
       message: "Token refreshed successfully",
       data: {

@@ -65,12 +65,20 @@ export function useTodos() {
         );
         if (error.status === 401) {
           // Handle unauthorized access, e.g., redirect to login
-          axios.post(
-            `${API_URL}/api/users/refresh-token`,
-            {},
-            { withCredentials: true }
-          );
-          window.location.reload(); // Reload to refresh auth state
+          try {
+            await axios.post(
+              `${API_URL}/api/users/refresh-token`,
+              {},
+              { withCredentials: true }
+            );
+            window.location.reload(); // Reload to refresh auth state
+          } catch (refreshError: any) {
+            alert(
+              "Failed to refresh token. Please log in again." +
+                (refreshError?.response?.data?.message as string)
+            );
+            console.error("Failed to refresh token:", refreshError);
+          }
         }
       }
     } finally {
