@@ -40,7 +40,7 @@ export function useTodos() {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await axios.get(`${API_URL}/api/todo/`, {
+      const response = await axios.get(`${API_URL}/api/todolists/`, {
         withCredentials: true,
       });
 
@@ -94,7 +94,7 @@ export function useTodos() {
   const addTodoList = useCallback(async (input: CreateTodoListInput) => {
     try {
       const response = await axios.post(
-        `${API_URL}/api/todo/`,
+        `${API_URL}/api/todolists/`,
         {
           title: input.title,
           description: input.description,
@@ -134,7 +134,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `${API_URL}/api/todo/${id}`,
+          `${API_URL}/api/todolists/${id}`,
           {
             title: updates.title,
             description: updates.description,
@@ -158,7 +158,7 @@ export function useTodos() {
       setTodoLists((prev) => prev.filter((list) => list.id !== id));
 
       try {
-        await axios.delete(`${API_URL}/api/todo/${id}`, {
+        await axios.delete(`${API_URL}/api/todolists/${id}`, {
           withCredentials: true,
         });
       } catch (error) {
@@ -175,12 +175,13 @@ export function useTodos() {
     async (listId: string, input: CreateTodoInput) => {
       try {
         const response = await axios.post(
-          `${API_URL}/api/todo/items/${listId}`,
+          `${API_URL}/api/todoitems`,
           {
             title: input.title,
             description: input.description,
             completed: input.completed || false,
             dueDate: input.dueDate.toISOString(),
+            toDoListId: listId,
           },
           { withCredentials: true }
         );
@@ -259,7 +260,7 @@ export function useTodos() {
 
       try {
         await axios.put(
-          `${API_URL}/api/todo/items/${todoId}`,
+          `${API_URL}/api/todoitems/${todoId}`,
           {
             title: updates.title,
             description: updates.description,
@@ -295,9 +296,8 @@ export function useTodos() {
             : list
         )
       );
-
       try {
-        await axios.delete(`${API_URL}/api/todo/items/${todoId}`, {
+        await axios.delete(`${API_URL}/api/todoitems/${todoId}`, {
           withCredentials: true,
         });
       } catch (error) {

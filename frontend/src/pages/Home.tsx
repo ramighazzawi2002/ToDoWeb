@@ -22,7 +22,7 @@ const Home = () => {
     console.log("Setting up socket connection...");
 
     // Create socket connection
-    socketRef.current = io("https://todoweb-i27o.onrender.com", {
+    socketRef.current = io("http://localhost:3000", {
       transports: ["websocket", "polling"],
       timeout: 20000,
     });
