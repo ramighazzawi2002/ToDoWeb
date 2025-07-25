@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import * as dotenv from "dotenv";
-dotenv.config();
 export const API_URL =
-  process.env.ENV === "production"
+  import.meta.env.ENV === "production"
     ? "https://todoweb-backend.onrender.com"
     : "http://localhost:3000"; // Update this to your backend API URL
 interface User {
