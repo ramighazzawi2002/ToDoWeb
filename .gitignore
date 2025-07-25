@@ -2,3 +2,5 @@
 
 # ignore backend .env file
 backend/.env
+# ignore frontend .env file
+frontend/.env
