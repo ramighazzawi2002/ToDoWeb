@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-let ENV = "production"; // Change this to 'production' in production environment
+let ENV = "development"; // Change this to 'production' in production environment
 export const API_URL =
   ENV === "production"
     ? "https://todoweb-backend.onrender.com"
